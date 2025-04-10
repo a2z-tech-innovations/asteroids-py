@@ -1,4 +1,5 @@
 import pygame
+from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 
 # Base class for game objects
 class CircleShape(pygame.sprite.Sprite):
@@ -12,6 +13,7 @@ class CircleShape(pygame.sprite.Sprite):
         self.position = pygame.Vector2(x, y)
         self.velocity = pygame.Vector2(0, 0)
         self.radius = radius
+    
     def collision(self, other):
         distance = self.position.distance_to(other.position)
         return distance < (self.radius + other.radius)
@@ -23,3 +25,9 @@ class CircleShape(pygame.sprite.Sprite):
     def update(self, dt):
         # sub-classes must override
         pass
+        
+    def is_off_screen(self):
+        return (self.position.x < -self.radius or 
+                self.position.x > SCREEN_WIDTH + self.radius or
+                self.position.y < -self.radius or 
+                self.position.y > SCREEN_HEIGHT + self.radius)
